@@ -2,10 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/learn_et_answer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LearnActivity">
+    tools:context=".activities.LearnActivity">
 
     <Spinner
         android:id="@+id/learn_spinner_firstLang"
@@ -47,20 +46,19 @@
         android:id="@+id/learn_spinner_typeFilter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="62dp"
-        tools:layout_editor_absoluteY="71dp" />
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/learn_tv_filterHint"
+        app:layout_constraintStart_toEndOf="@+id/learn_tv_filterHint"
+        app:layout_constraintTop_toTopOf="@+id/learn_tv_filterHint" />
 
     <TextView
         android:id="@+id/learn_tv_filterHint"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         android:text="Filter"
-        app:layout_constraintBottom_toBottomOf="@+id/learn_spinner_typeFilter"
-        app:layout_constraintEnd_toStartOf="@+id/learn_spinner_typeFilter"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/learn_spinner_firstLang"
-        app:layout_constraintTop_toTopOf="@+id/learn_spinner_typeFilter"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/learn_spinner_firstLang" />
 
     <TextView
         android:id="@+id/learn_tv_timeHint"
@@ -78,7 +76,6 @@
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
         android:ems="3"
-        android:hint="time"
         android:inputType="number"
         app:layout_constraintBottom_toBottomOf="@+id/learn_tv_timeHint"
         app:layout_constraintEnd_toStartOf="@+id/learn_spinner_unit"
@@ -124,8 +121,9 @@
         android:layout_height="1dp"
         android:layout_marginTop="16dp"
         android:background="?android:attr/listDivider"
-        app:layout_constraintTop_toBottomOf="@+id/learn_imgbtn_start"
-        tools:layout_editor_absoluteX="1dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/learn_imgbtn_start" />
 
     <EditText
         android:id="@+id/learn_et_answer"
@@ -135,8 +133,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
+        android:hint="answer"
         android:inputType="textPersonName"
-        android:text="Name"
         app:layout_constraintEnd_toStartOf="@+id/learn_button_submit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/learn_tv_testWord" />

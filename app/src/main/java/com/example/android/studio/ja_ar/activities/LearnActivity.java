@@ -1,4 +1,4 @@
-package com.example.android.studio.ja_ar;
+package com.example.android.studio.ja_ar.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.android.studio.ja_ar.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class LearnActivity extends AppCompatActivity{
