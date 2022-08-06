@@ -14,7 +14,13 @@
         android:theme="@style/Theme.Ja_Ar"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".LearnActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SavingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

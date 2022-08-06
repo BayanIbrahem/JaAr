@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center|center_horizontal|center_vertical"
+    tools:context=".SavingActivity">
+
+    <EditText
+        android:id="@+id/save_et_word"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="word"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="1" />
+
+    <EditText
+        android:id="@+id/save_et_meaning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="meaning"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/save_et_word"
+        app:layout_constraintStart_toStartOf="@+id/save_et_word"
+        app:layout_constraintTop_toBottomOf="@+id/save_et_word" />
+
+    <Spinner
+        android:id="@+id/save_spinner_type"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/save_et_meaning"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintStart_toEndOf="@+id/save_et_word"
+        app:layout_constraintTop_toBottomOf="@+id/save_tv_spinnerHint"
+        app:layout_constraintVertical_weight="2" />
+
+    <TextView
+        android:id="@+id/save_tv_spinnerHint"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center"
+        android:text="Type:"
+        app:layout_constraintBottom_toBottomOf="@+id/save_et_word"
+        app:layout_constraintStart_toEndOf="@+id/save_et_word"
+        app:layout_constraintTop_toTopOf="@+id/save_et_word" />
+
+    <EditText
+        android:id="@+id/save_et_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:hint="description"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/save_et_meaning"
+        app:layout_constraintTop_toBottomOf="@+id/save_et_meaning" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/save_rv_words"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/save_et_description"
+        app:layout_constraintStart_toStartOf="@+id/save_et_description"
+        app:layout_constraintTop_toBottomOf="@+id/save_et_description" />
+</androidx.constraintlayout.widget.ConstraintLayout>
