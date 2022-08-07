@@ -6,23 +6,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Pair;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.android.studio.ja_ar.R;
+import com.example.android.studio.ja_ar.databinding.ActivitySavingBinding;
 import com.example.android.studio.ja_ar.enums.lang.Languages;
 import com.example.android.studio.ja_ar.recycler_view.adapter.WordListAdapter;
 import com.example.android.studio.ja_ar.units.word.Word;
 
 public class SavingActivity extends AppCompatActivity{
   
-  private EditText et_word;
-  private EditText et_meaning;
-  private EditText et_description;
-  private TextView tv_spinnerHint;
-  private Spinner spinner_type;
-  private RecyclerView rv_words;
+  ActivitySavingBinding binding;
   
   private WordListAdapter wordsAdapter;
   
@@ -35,12 +32,9 @@ public class SavingActivity extends AppCompatActivity{
   }
   
   private void initUi(){
-    et_word = findViewById(R.id.save_et_word);
-    et_meaning = findViewById(R.id.save_et_meaning);
-    et_description = findViewById(R.id.save_et_description);
-    tv_spinnerHint = findViewById(R.id.save_tv_spinnerHint);
-    spinner_type = findViewById(R.id.save_spinner_type);
-    rv_words = findViewById(R.id.save_rv_words);
+    binding = ActivitySavingBinding.inflate(getLayoutInflater());
+    View root = binding.getRoot();
+    setContentView(root);
   }
   private void setRecyclerView(){
     Word dummy_words[] = new Word[10];
@@ -58,8 +52,8 @@ public class SavingActivity extends AppCompatActivity{
     }
     wordsAdapter = new WordListAdapter(dummy_words);
     LinearLayoutManager rvLayoutManager = new LinearLayoutManager(this);
-    rv_words.setLayoutManager(rvLayoutManager);
-    rv_words.setHasFixedSize(false);
-    rv_words.setAdapter(wordsAdapter);
+    binding.saveRvWords.setLayoutManager(rvLayoutManager);
+    binding.saveRvWords.setHasFixedSize(false);
+    binding.saveRvWords.setAdapter(wordsAdapter);
   }
 }

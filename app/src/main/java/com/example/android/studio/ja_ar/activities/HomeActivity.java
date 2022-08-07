@@ -4,15 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.android.studio.ja_ar.R;
+import com.example.android.studio.ja_ar.databinding.ActivityHomeBinding;
 
 public class HomeActivity extends AppCompatActivity{
   
-  Button button_learn;
-  Button button_saving;
+  ActivityHomeBinding binding;
+  
   @Override
   protected void onCreate(Bundle savedInstanceState){
     super.onCreate(savedInstanceState);
@@ -20,9 +23,25 @@ public class HomeActivity extends AppCompatActivity{
     initUi();
     set_button_clickListener();
   }
+  
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu){
+    getMenuInflater().inflate(R.menu.home_app_bar, menu);
+    return true;
+  }
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item){
+    switch(item.getItemId()){
+      case R.id.menu_home_settings:
+        goToSettings();
+    }
+    return true;
+  }
+  
   private void initUi(){
-    button_learn = findViewById(R.id.home_button_learn);
-    button_saving = findViewById(R.id.home_button_saving);
+    binding = ActivityHomeBinding.inflate(getLayoutInflater());
+    View root = binding.getRoot();
+    setContentView(root);
   }
   private void set_button_clickListener(){
     View.OnClickListener buttonLearnClickListener =
@@ -41,7 +60,11 @@ public class HomeActivity extends AppCompatActivity{
             startActivity(intentToSave);
           }
         };
-    button_learn.setOnClickListener(buttonLearnClickListener);    
-    button_saving.setOnClickListener(buttonSetValueClickListener);
+    binding.homeButtonLearn.setOnClickListener(buttonLearnClickListener);
+    binding.homeButtonSaving.setOnClickListener(buttonSetValueClickListener);
+  }
+  private void goToSettings(){
+    Intent settingsIntent = new Intent(this, SettingsActivity.class);
+    startActivity(settingsIntent);
   }
 }
