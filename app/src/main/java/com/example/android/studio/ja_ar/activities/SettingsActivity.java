@@ -10,16 +10,19 @@ import android.os.Bundle;
 import com.example.android.studio.ja_ar.R;
 import com.example.android.studio.ja_ar.fragments.SettingsFragment;
 
-public class SettingsActivities extends AppCompatActivity implements
+public class SettingsActivity extends AppCompatActivity implements
     PreferenceFragmentCompat.OnPreferenceStartFragmentCallback{
-  
-  
   @Override
   protected void onCreate(Bundle savedInstanceState){
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_settings);
+    if (savedInstanceState == null) {
+      getSupportFragmentManager().beginTransaction()
+          .setReorderingAllowed(true)
+          .add(R.id.settings_activity_container, SettingsFragment.class, null)
+          .commit();
+    }
   }
-  
   @Override
   public boolean onPreferenceStartFragment(PreferenceFragmentCompat caller, Preference pref) {
     // Instantiate the new Fragment
@@ -28,7 +31,6 @@ public class SettingsActivities extends AppCompatActivity implements
         getClassLoader(),
         pref.getFragment());
     fragment.setArguments(args);
-    fragment.setTargetFragment(caller, 0);
     // Replace the existing Fragment with the new Fragment
     getSupportFragmentManager().beginTransaction()
         .replace(R.id.settings_activity_container, fragment)
@@ -36,5 +38,4 @@ public class SettingsActivities extends AppCompatActivity implements
         .commit();
     return true;
   }
-
 }

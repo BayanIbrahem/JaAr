@@ -2,7 +2,10 @@ plugins {
     id 'com.android.application'
 }
 
+
 android {
+
+
     //use file view Binding:
     buildFeatures{
         viewBinding true
@@ -33,6 +36,10 @@ android {
 }
 
 dependencies {
+    def fragment_version = "1.5.1"
+
+    // Java language implementation
+    implementation "androidx.fragment:fragment:$fragment_version"
 
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'com.google.android.material:material:1.6.1'

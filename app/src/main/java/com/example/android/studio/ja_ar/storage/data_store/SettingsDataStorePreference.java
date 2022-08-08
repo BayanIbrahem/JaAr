@@ -1,67 +1,59 @@
 package com.example.android.studio.ja_ar.storage.data_store;
 
 import android.app.Application;
-import android.content.Context;
 
-import androidx.datastore.preferences.core.Preferences;
-import androidx.datastore.preferences.rxjava2.RxPreferenceDataStoreBuilder;
-import androidx.datastore.rxjava2.RxDataStore;
 import androidx.preference.PreferenceDataStore;
 
 public class SettingsDataStorePreference extends PreferenceDataStore{
   
-  private RxDataStore<Preferences> dataStore;
+  DataStoreManager dataStoreManager;
   
   public SettingsDataStorePreference(Application application){
-    Context context = application.getApplicationContext();
-    this.dataStore = new RxPreferenceDataStoreBuilder(context, "settings_dataStore").build();
+    dataStoreManager = DataStoreManager.getInstance(application);
   }
   
   @Override
-  public void putString(String string_key, String string_value){
-    //TODO: make this method
+  public void putBoolean(String boolean_key, boolean boolean_value){
+    dataStoreManager.writeBoolean(boolean_key, boolean_value);
   }
   @Override
   public void putInt(String int_key, int int_value){
-    //TODO: make this method
-  }
-  @Override
-  public void putFloat(String double_key, float float_value){
-    //TODO: make this method
+    dataStoreManager.writeInteger(int_key, int_value);
   }
   @Override
   public void putLong(String long_key, long long_value){
-    //TODO: make this method
+    dataStoreManager.writeLong(long_key, long_value);
   }
   @Override
-  public void putBoolean(String boolean_key, boolean boolean_value){
-    //TODO: make this method
+  public void putFloat(String float_key, float float_value){
+    dataStoreManager.writeFloat(float_key, float_value);
+  }
+  @Override
+  public void putString(String string_key, String string_value){
+    dataStoreManager.writeString(string_key, string_value);
   }
   
+  /*** WRITINGS METHODS *************************************/
   
   @Override
-  public String getString(String string_key, String default_value){
-    //TODO: make this method
-    return "";
+  public boolean getBoolean(String boolean_key, boolean default_value){
+    return dataStoreManager.readBoolean(boolean_key, default_value);
   }
   @Override
   public int getInt(String int_key, int default_value){
-    //TODO: make this method
-    return 0;
-  }
-  @Override
-  public float getFloat(String double_key, float default_value){
-    //TODO: make this method
-    return 0f;
+    return dataStoreManager.readInt(int_key, default_value);
   }
   @Override
   public long getLong(String long_key, long default_value){
-    //TODO: make this method
-    return 0l;
+    return dataStoreManager.readLong(long_key, default_value);
   }
   @Override
-  public boolean getBoolean(String boolean_key, boolean default_value){
-    //TODO: make this method
-    return false;
+  public float getFloat(String float_key, float default_value){
+    return dataStoreManager.readFloat(float_key, default_value);
   }
+  @Override
+  public String getString(String string_key, String default_value){
+    return dataStoreManager.readString(string_key, default_value);
+  }
+
 }
