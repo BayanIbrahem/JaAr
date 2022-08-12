@@ -14,6 +14,7 @@
         <entry key="app/src/main/res/menu/home_app_bar.xml" value="0.2234375" />
         <entry key="app/src/main/res/xml/header_preferences.xml" value="0.1" />
         <entry key="app/src/main/res/xml/messages_preferences.xml" value="0.10955056179775281" />
+        <entry key="app/src/main/res/xml/root_preferences.xml" value="0.33" />
         <entry key="app/src/main/res/xml/sync_preferences.xml" value="0.5" />
       </map>
     </option>

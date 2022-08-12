@@ -25,6 +25,7 @@
             android:exported="false"
             android:parentActivityName=".activities.HomeActivity" />
         <activity
+            android:launchMode="singleTop"
             android:name=".activities.HomeActivity"
             android:exported="true">
             <intent-filter>

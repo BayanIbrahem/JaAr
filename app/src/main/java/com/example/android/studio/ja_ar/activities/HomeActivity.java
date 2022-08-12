@@ -11,6 +11,8 @@ import android.widget.Button;
 
 import com.example.android.studio.ja_ar.R;
 import com.example.android.studio.ja_ar.databinding.ActivityHomeBinding;
+import com.example.android.studio.ja_ar.fragments.SettingsFragment;
+import com.example.android.studio.ja_ar.storage.data_store.SettingsDataStorePreference;
 
 public class HomeActivity extends AppCompatActivity{
   

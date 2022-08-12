@@ -31,6 +31,16 @@
             app:summaryOff="@string/attachment_summary_off"
             app:summaryOn="@string/attachment_summary_on"
             app:title="@string/attachment_title" />
+        <SwitchPreferenceCompat
+            app:key="subscribe"
+            app:title="subscribe" />
+
+        <SwitchPreferenceCompat
+            app:dependency="subscribe"
+            app:key="auto_subscribe"
+            app:summaryOff="auto subscribe off"
+            app:summaryOn="auto subscribe on"
+            app:title="automate subscription" />
     </PreferenceCategory>
 
 </PreferenceScreen>
