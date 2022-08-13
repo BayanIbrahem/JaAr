@@ -9,17 +9,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.studio.ja_ar.R;
-import com.example.android.studio.ja_ar.units.word.Word;
-
-import java.util.Arrays;
-import java.util.List;
+import com.example.android.studio.ja_ar.units.word.SingleWord;
 
 public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.ViewHolder>{
   
-  Word[] words;
+  SingleWord[] singleWords;
   
-  public WordListAdapter(Word... words){
-    this.words = words;
+  public WordListAdapter(SingleWord... singleWords){
+    this.singleWords = singleWords;
   }
   
   @NonNull
@@ -34,12 +31,12 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.ViewHo
   
   @Override
   public void onBindViewHolder(@NonNull ViewHolder holder, int position){
-    holder.bind(words[position]);
+    holder.bind(singleWords[position]);
   }
   
   @Override
   public int getItemCount(){
-    return words.length;
+    return singleWords.length;
   }
   
   public class ViewHolder extends RecyclerView.ViewHolder{
@@ -55,11 +52,11 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.ViewHo
       tv_description = itemView.findViewById(R.id.list_tv_description);
       tv_wordMeaning = itemView.findViewById(R.id.list_tv_meaning);
     }
-    void bind(Word word){
-      tv_wordName.setText(word.getDefaultLanguageName());
-      tv_wordType.setText(word.getType());
-      tv_description.setText(word.getDefaultDescription());
-      tv_wordMeaning.setText(word.getSecondLanguageName());
+    void bind(SingleWord singleWord){
+      tv_wordName.setText(singleWord.getDefaultLanguageName());
+      tv_wordType.setText(singleWord.getType());
+      tv_description.setText(singleWord.getDefaultDescription());
+      tv_wordMeaning.setText(singleWord.getSecondLanguageName());
     }
   }
 }

@@ -11,7 +11,6 @@ import com.example.android.studio.ja_ar.units.word_manager.WordManager;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.UnaryOperator;
 
 /**
  * THIS CLASS REPRESENTS A SINGLE WORD
@@ -22,24 +21,24 @@ import java.util.function.UnaryOperator;
  * BUT YOU CAN CALL 'correct_id'.
  * ALSO I ADDED CATEGORIES FOR WORDS.
  * */
-public class Word{
+public class SingleWord{
   private static int instance_created = 0;
   private long id; //unique num.
   private boolean true_id; // true id from database.
   private List<Languages> languages; //list of languages with key of each one.
   private List<List<String>> meanings; //list of meanings for each language.
-  private String type; //type of word (must be single value)
+  private String type; //Type of word (must be single value)
   private List<String> descriptions; //description for each language;
   private int testSuccess; //how many i tested
   private int testFailure; //this word.
   private String category; //make categories for words to make learning easier.
-  
-  public static Word getInstance(long id,
-                          String type,
-                          Pair<Languages, Languages> languages,
-                          Pair<String[], String[]> meanings,
-                          Pair<String, String> description,
-                          String category){
+  private boolean favorite;
+  public static SingleWord getInstance(long id,
+                                       String type,
+                                       Pair<Languages, Languages> languages,
+                                       Pair<String[], String[]> meanings,
+                                       Pair<String, String> description,
+                                       String category){
     boolean is_valid_instance = true;
     is_valid_instance =
             id>=0
@@ -53,15 +52,15 @@ public class Word{
             && !isPalindrome(description)
             && !isPalindrome(languages);
     if(is_valid_instance){
-      return new Word(id, type, languages, meanings, description, category);
+      return new SingleWord(id, type, languages, meanings, description, category);
     }
     return null;
   }
-  private Word(long id,
-               String type,
-               Pair<Languages, Languages> languages,
-               Pair<String[], String[]> meanings,
-               Pair<String, String> description, String category){
+  private SingleWord(long id,
+                     String type,
+                     Pair<Languages, Languages> languages,
+                     Pair<String[], String[]> meanings,
+                     Pair<String, String> description, String category){
     this.id=id;
     this.type = type;
     
@@ -81,6 +80,7 @@ public class Word{
     this.descriptions.add(description.second.trim().toLowerCase());
     this.category = category;
     
+    this.favorite = false;
     clearHistory();
   }
   
@@ -253,5 +253,11 @@ public class Word{
   }
   
   
-
+  public boolean isFavorite(){
+    return favorite;
+  }
+  
+  public void setFavorite(boolean favorite){
+    this.favorite = favorite;
+  }
 }

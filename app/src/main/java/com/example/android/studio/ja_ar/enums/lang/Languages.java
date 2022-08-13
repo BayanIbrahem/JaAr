@@ -12,5 +12,6 @@ public enum Languages{
   public String name = "";
   Languages(long lang_id, String name){
     this.lang_id = lang_id;
+    this.name = name;
   }
 }
