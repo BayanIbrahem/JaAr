@@ -18,19 +18,19 @@ public interface WordDao{
   
   //return IDs of the inserted words.
   @Insert(onConflict = OnConflictStrategy.REPLACE)
-  public long[] insert_or_replace(Word... words);
+  public void insert_or_replace(Word... words);
   
   @Insert(onConflict = OnConflictStrategy.IGNORE)
-  public long[] insert_or_ignore(Word... words);
+  public void insert_or_ignore(Word... words);
   
   //return the number of updated rows.
   @Update
-  public long update(Word new_word);
+  public void update(Word new_word);
   //TODO: make advanced updates as needed.
   
   //delete the word with the delete_word id
   @Delete
-  public long delete(Word deleted_word);
+  public void delete(Word deleted_word);
   
   @Query("SELECT * FROM words")
   public List<Word> get_all();
@@ -40,12 +40,5 @@ public interface WordDao{
   
   @Query("SELECT * FROM words WHERE favorite")
   public List<Word> get_favorite();
-  
-  @Query("SELECT DISTINCT " +
-      "word_id, meanings, descriptions, type, " +
-      "category, favorite, passed_tests_num, failed_tests_num " +
-      "FROM words WHERE lang_id IN (:first_lang, :second_lang)")
-  public List<Word> get_in_lang(long first_lang, long second_lang);
-  //TODO make other select queries...
   
 }

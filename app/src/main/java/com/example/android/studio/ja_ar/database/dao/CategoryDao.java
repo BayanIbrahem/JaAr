@@ -14,23 +14,21 @@ import java.util.List;
 public interface CategoryDao{
   //insert
   @Insert
-  public long insert(Category category);
-  @Insert
-  public long insert(String category_name);
+  public void insert(Category category);
   
   //update
   @Update
-  public long update(Category category);
+  public void update(Category category);
   @Query("UPDATE categories SET category_name = :category_name WHERE category_id = :category_id")
-  public long update(String category_name, long category_id);
+  public void update(String category_name, long category_id);
   
   //delete
   @Delete
-  public long delete(Category category);
+  public void delete(Category category);
   @Query("DELETE FROM categories WHERE category_id = :category_id")
-  public long delete(long category_id);
+  public void delete(long category_id);
   @Query("DELETE FROM categories WHERE category_name = :category_name")
-  public long delete(String category_name);
+  public void delete(String category_name);
   
   //select
   @Query("SELECT * FROM categories")

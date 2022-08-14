@@ -40,21 +40,18 @@ public class SingleWord{
                                        Pair<String, String> description,
                                        String category){
     boolean is_valid_instance = true;
-    is_valid_instance =
-            id>=0
-            && !isEmpty(type)
-            && !isEmpty(meanings.first)
-            && !isEmpty(meanings.second)
-            && !isEmpty(category)
-            && !isEmpty(description.first)
-            && !isEmpty(description.second)
-            && !Arrays.equals(meanings.second, meanings.first)
-            && !isPalindrome(description)
-            && !isPalindrome(languages);
-    if(is_valid_instance){
+//    is_valid_instance =
+//            id>=0
+//            && !isEmpty(type)
+//            && !isEmpty(meanings.first)
+//            && !isEmpty(meanings.second)
+//            && !isEmpty(category)
+//            && !isEmpty(description.first)
+//            && !isEmpty(description.second)
+//            && !Arrays.equals(meanings.second, meanings.first)
+//            && !isPalindrome(description)
+//            && !isPalindrome(languages);
       return new SingleWord(id, type, languages, meanings, description, category);
-    }
-    return null;
   }
   private SingleWord(long id,
                      String type,
@@ -259,5 +256,9 @@ public class SingleWord{
   
   public void setFavorite(boolean favorite){
     this.favorite = favorite;
+  }
+  @Override
+  public String toString(){
+    return "id: " + id + " type: " + type + " meanings: " + meanings.toString() + " descriptions: " + descriptions.toString();
   }
 }

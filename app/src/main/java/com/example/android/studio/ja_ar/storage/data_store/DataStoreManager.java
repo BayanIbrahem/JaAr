@@ -11,18 +11,14 @@ import androidx.datastore.preferences.rxjava2.RxPreferenceDataStoreBuilder;
 import androidx.datastore.rxjava2.RxDataStore;
 
 import com.example.android.studio.ja_ar.R;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import com.example.android.studio.ja_ar.threads.ThreadManager;
 
 import io.reactivex.Flowable;
 import io.reactivex.Single;
-import kotlinx.coroutines.flow.Flow;
 
 public class DataStoreManager{
   private static RxDataStore<Preferences> dataStore;
   private static DataStoreManager instance;
-  private static ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
   
   private DataStoreManager(Application application){
     Context context = application.getApplicationContext();
@@ -90,7 +86,7 @@ public class DataStoreManager{
   /*** WRITINGS METHODS *************************************/
   
   public void writeBoolean(String BOOL_KEY, Boolean bool_value){
-    executorService.submit(()-> writingBooleanSteps(BOOL_KEY, bool_value));
+    ThreadManager.taskInThread(()-> writingBooleanSteps(BOOL_KEY, bool_value));
     Log.println(Log.ERROR, "settings", "data_store_manager, write boolean, pushed in another thread key, " + BOOL_KEY + " - " + as_str(bool_value));
   }
   private void writingBooleanSteps(String BOOL_KEY, Boolean bool_value){
@@ -105,7 +101,7 @@ public class DataStoreManager{
   }
   
   public void writeInteger(String INT_KEY, Integer int_value){
-    executorService.submit(()-> writingIntegerSteps(INT_KEY, int_value));
+    ThreadManager.taskInThread(()-> writingIntegerSteps(INT_KEY, int_value));
     Log.println(Log.ERROR, "settings", "data_store_manager, write int, pushed in another thread key, " + INT_KEY + " - " + as_str(int_value));
   }
   private void writingIntegerSteps(String INT_KEY, Integer int_value){
@@ -120,7 +116,7 @@ public class DataStoreManager{
   }
   
   public void writeLong(String LONG_KEY, Long long_value){
-    executorService.submit(()-> writingLongSteps(LONG_KEY, long_value));
+    ThreadManager.taskInThread(()-> writingLongSteps(LONG_KEY, long_value));
     Log.println(Log.ERROR, "settings", "data_store_manager, write long, pushed in another thread key, " + LONG_KEY + " - " + as_str(long_value));
   }
   private void writingLongSteps(String LONG_KEY, Long long_value){
@@ -135,7 +131,7 @@ public class DataStoreManager{
   }
   
   public void writeFloat(String FLOAT_KEY, float float_value){
-    executorService.submit(()-> writingFloatSteps(FLOAT_KEY, float_value));
+    ThreadManager.taskInThread(()-> writingFloatSteps(FLOAT_KEY, float_value));
     Log.println(Log.ERROR, "settings", "data_store_manager, write float, pushed in another thread key, " + FLOAT_KEY + " - " + as_str(float_value));
   }
   private void writingFloatSteps(String FLOAT_KEY, float float_value){
@@ -150,7 +146,7 @@ public class DataStoreManager{
   }
   
   public void writeString(String STRING_KEY, String string_value){
-    executorService.submit(()-> writingStringSteps(STRING_KEY, string_value));
+    ThreadManager.taskInThread(()-> writingStringSteps(STRING_KEY, string_value));
     Log.println(Log.ERROR, "settings", "data_store_manager, write string, pushed in another thread key, " + STRING_KEY + " - " + as_str(string_value));
   }
   private void writingStringSteps(String STRING_KEY, String string_value){
@@ -166,12 +162,8 @@ public class DataStoreManager{
   
   @Override
   protected void finalize() throws Throwable{
-    if(executorService != null && !executorService.isShutdown()){
-      executorService.shutdown();
-    }
     super.finalize();
   }
-  
   private String as_str(Object val){
     return val.toString();
   }

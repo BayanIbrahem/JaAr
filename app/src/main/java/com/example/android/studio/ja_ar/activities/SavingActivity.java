@@ -4,14 +4,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.android.studio.ja_ar.R;
+import com.example.android.studio.ja_ar.database.database_manager.LocalDataBaseManager;
+import com.example.android.studio.ja_ar.database.entity.Word;
+import com.example.android.studio.ja_ar.database.entity.WordsMeanings;
 import com.example.android.studio.ja_ar.databinding.ActivitySavingBinding;
 import com.example.android.studio.ja_ar.enums.lang.Languages;
 import com.example.android.studio.ja_ar.recycler_view.adapter.WordListAdapter;
+import com.example.android.studio.ja_ar.threads.ThreadManager;
 import com.example.android.studio.ja_ar.units.word.SingleWord;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class SavingActivity extends AppCompatActivity{
   
@@ -25,6 +35,7 @@ public class SavingActivity extends AppCompatActivity{
     setContentView(R.layout.activity_saving);
     initUi();
     setRecyclerView();
+    setListener();
   }
   
   private void initUi(){
@@ -38,9 +49,9 @@ public class SavingActivity extends AppCompatActivity{
       Pair<Languages, Languages> lang = new Pair<>(Languages.ar, Languages.en);
       String[] main_meaning = new String[10];
       String[] second_meaning = new String[10];
-      for(int j = 0; j<10; j++){
-        main_meaning[j] = "main meaning #"+i+", "+j;
-        second_meaning[j] = "second meaning #"+i+", "+j;
+      for(int j = 0; j < 10; j++){
+        main_meaning[j] = "main meaning #" + i + ", " + j;
+        second_meaning[j] = "second meaning #" + i + ", " + j;
       }
       Pair<String[], String[]> mean = new Pair<>(main_meaning, second_meaning);
       Pair<String, String> desc = new Pair<>("main description #"+i, "second description #"+i);
@@ -51,5 +62,19 @@ public class SavingActivity extends AppCompatActivity{
     binding.saveRvWords.setLayoutManager(rvLayoutManager);
     binding.saveRvWords.setHasFixedSize(false);
     binding.saveRvWords.setAdapter(wordsAdapter);
+  }
+  
+  private void setListener(){
+    View.OnClickListener saveListener = new View.OnClickListener(){
+      @Override
+      public void onClick(View view){
+        saveWord();
+      }
+    };
+    binding.saveButtonSave.setOnClickListener(saveListener);
+  }
+  
+  private void saveWord(){
+  
   }
 }
