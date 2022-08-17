@@ -21,20 +21,17 @@ public class LocalDataBaseManager{
   
   private LocalDatabase dataBase;
   
-  private CategoryDao categoryDao;
   private TestHistoryDao testHistoryDao;
   private WordDao wordDao;
   private WordsMeaningsDao wordsMeaningsDao;
   
   private LocalDataBaseManager(
       LocalDatabase dataBase,
-      CategoryDao categoryDao,
       TestHistoryDao testHistoryDao,
       WordDao wordDao,
       WordsMeaningsDao wordsMeaningsDao
   ){
     this.dataBase = dataBase;
-    this.categoryDao = categoryDao;
     this.testHistoryDao = testHistoryDao;
     this.wordDao = wordDao;
     this.wordsMeaningsDao = wordsMeaningsDao;
@@ -45,12 +42,11 @@ public class LocalDataBaseManager{
       
       LocalDatabase database = Room.databaseBuilder(context, LocalDatabase.class, DATABASE_NAME).allowMainThreadQueries().build();
       
-      CategoryDao categoryDao = database.getCategoryDao();
       TestHistoryDao testHistoryDao = database.getTestHistoryDao();
       WordDao wordDao = database.getWordDao();
       WordsMeaningsDao wordsMeaningsDao = database.getWordsMeaningsDao();
       
-      instance = new LocalDataBaseManager(database, categoryDao, testHistoryDao, wordDao, wordsMeaningsDao);
+      instance = new LocalDataBaseManager(database, testHistoryDao, wordDao, wordsMeaningsDao);
     }
     return instance;
   }
@@ -69,7 +65,7 @@ public class LocalDataBaseManager{
   
   //return the number of updated rows.
   public void update_word(Word new_word){
-    this.wordDao.update(new_word);
+  
   }
   //TODO: make advanced updates as needed.
   
@@ -84,7 +80,7 @@ public class LocalDataBaseManager{
   
   /** WORDS MEANINGS **/
   public void insert_word_meaning(WordsMeanings new_word_meaning){
-    this.wordsMeaningsDao.insert(new_word_meaning);
+  
   }
   
   public void update_word_meaning(WordsMeanings edited_word_meaning){

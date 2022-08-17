@@ -10,10 +10,11 @@ public class TestHistory{
   public long history_id;
   
   @ColumnInfo(name = "date")
+  //number of seconds form 1970 (not milli seconds)
   public long date;
   
-  @ColumnInfo(name="word")
-  public long word;
+  @ColumnInfo(name="word_id")
+  public long word_id;
   
   @ColumnInfo(name = "first_lang")
   public long first_lang;

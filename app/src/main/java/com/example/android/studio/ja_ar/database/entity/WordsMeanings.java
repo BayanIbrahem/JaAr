@@ -16,9 +16,10 @@ public class WordsMeanings{
   @ColumnInfo(name = "single_meaning")
   public String single_meaning;
   
+
   @ColumnInfo(name = "usage_count")
   public long usage_count;
   
-  @ColumnInfo(name = "descriptions")
-  public String descriptions;
+  @ColumnInfo(name = "is_type", defaultValue = "false")
+  public boolean is_type;
 }
