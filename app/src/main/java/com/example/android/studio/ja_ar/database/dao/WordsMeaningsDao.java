@@ -96,11 +96,11 @@ public interface WordsMeaningsDao{
   @Query(SELECT_CATEGORY_IN_LANG)
   public WordsMeanings get_category_in_lang(long word_id, long lang_id);
   @Query(SELECT_WORD_TYPES)
-  public String get_word_types(long word_id);
+  public List<String> get_word_types(long word_id);
   @Query(SELECT_WORD_CATEGORIES)
-  public WordsMeanings get_word_categories(long word_id);
+  public List<WordsMeanings> get_word_categories(long word_id);
   @Query(SELECT_LANG_TYPES)
-  public String get_lang_types(long lang_id);
+  public List<String> get_lang_types(long lang_id);
   @Query(SELECT_LANG_CATEGORIES)
-  public WordsMeanings get_lang_categories(long lang_id);
+  public List<WordsMeanings> get_lang_categories(long lang_id);
 }

@@ -11,7 +11,7 @@ import java.util.List;
 
 
 /**
- * STRINGS NAMES,
+ * STRINGS NAMES:
  * FIRST EVERY STRING REPRESENTS WHAT IT CONTAINS,
  * IN QUERIES THERE ARE SOME SUB STRINGS DUPLICATED SO I MAKE THEM IN SEPARATED STRING VARIABLE
  * TO KNOW IF THE STRING IS QUERY OR SUB STRING WE SEE THE FIRST WORD
@@ -35,6 +35,7 @@ public interface TestHistoryDao{
   public static final String SELECT_HISTORY_FOR_DATE = SELECT_ALL + " WHERE " + DATE_IN_RANGE;
   public static final String SELECT_SUCCESS_HISTORY = SELECT_ALL + " WHERE succeeded";
   public static final String SELECT_FAILURE_HISTORY = SELECT_ALL + " WHERE NOT succeeded";
+  
   @Insert
   public void insert(TestHistory new_history);
   

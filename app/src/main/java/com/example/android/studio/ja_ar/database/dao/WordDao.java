@@ -6,7 +6,7 @@ import com.example.android.studio.ja_ar.database.entity.*;
 
 import java.util.List;
 /**
- * STRINGS NAMES, 
+ * STRINGS NAMES:
  * FIRST EVERY STRING REPRESENTS WHAT IT CONTAINS,
  * IN QUERIES THERE ARE SOME SUB STRINGS DUPLICATED SO I MAKE THEM IN SEPARATED STRING VARIABLE
  * TO KNOW IF THE STRING IS QUERY OR SUB STRING WE SEE THE FIRST WORD
@@ -17,18 +17,19 @@ import java.util.List;
 @Dao public interface WordDao{
   public static final String INSERT_TYPE_OR_CATEGORY = "INSERT INTO words (type_id, category_id, is_favorite, passed_tests_num, failed_tests_num) VALUES (:type_id, :category_id, :is_favorite, null, null)";
   public static final String WORD_ID_IS_EQUALS = "word_id = :word_id";
+  public static final String LANG_ID_IS_EQUALS = "lang_id = :lang_id";
   public static final String IS_TYPE_ID = "word_id IN (SELECT word_id FROM words_meanings WHERE single_meaning LIKE \"type-%\")";
   public static final String IS_CATEGORY_ID = "word_id IN (SELECT word_id FROM words_meanings WHERE single_meaning LIKE \"category-%\")";
   public static final String IS_TYPE_OR_CATEGORY_ID = "word_id IN (SELECT word_id FROM words_meanings WHERE single_meaning LIKE \"category-%\" OR single_meaning LIKE \"type-%\")";
   public static final String SET_WORD_IS_FAVORITE = "UPDATE words SET is_favorite = :is_favorite";
-  public static final String UPDATE_SET_TYPE_FAVORITE = SET_WORD_IS_FAVORITE + " WHERE " + WORD_ID_IS_EQUALS + " AND " + IS_TYPE_ID;
-  public static final String UPDATE_SET_CATEGORY_FAVORITE = SET_WORD_IS_FAVORITE + " WHERE " + WORD_ID_IS_EQUALS + " AND " + IS_CATEGORY_ID;
+  public static final String UPDATE_SET_WORD_FAVORITE = SET_WORD_IS_FAVORITE + " WHERE " + WORD_ID_IS_EQUALS;
   public static final String UPDATE_ADD_PASSED_TEST_TRY = "UPDATE words SET passed_tests_num = 1 + (SELECT passed_tests_num FROM words WHERE " + WORD_ID_IS_EQUALS + ") WHERE " + WORD_ID_IS_EQUALS + " AND passed_tests_num IS NOT null";
   public static final String UPDATE_ADD_FAILED_TEST_TRY = "UPDATE words SET failed_tests_num = 1 + (SELECT failed_tests_num FROM words WHERE " + WORD_ID_IS_EQUALS + ") WHERE " + WORD_ID_IS_EQUALS + " AND failed_tests_num IS NOT null";
   public static final String WORD_CLEAR_TEST_HISTORY = "UPDATE words SET passed_tests_num = 0, failed_tests_num = 0";
   public static final String UPDATE_CLEAR_HISTORY = WORD_CLEAR_TEST_HISTORY + " WHERE NOT " + IS_TYPE_OR_CATEGORY_ID;
   public static final String UPDATE_CLEAR_HISTORY_FOR_WORD = WORD_CLEAR_TEST_HISTORY + " WHERE " + WORD_ID_IS_EQUALS + " AND NOT " + IS_TYPE_OR_CATEGORY_ID;
   public static final String REMOVE_ALL_WORDS = "DELETE FROM words";
+  public static final String DELETE_WORD = REMOVE_ALL_WORDS + " WHERE word_id = :word_id AND NOT " + IS_TYPE_ID + " AND NOT " + IS_CATEGORY_ID;
   public static final String DELETE_TYPE = REMOVE_ALL_WORDS + " WHERE word_id = :type_id AND " + IS_TYPE_ID;
   public static final String DELETE_CATEGORY = REMOVE_ALL_WORDS + " WHERE word_id = :category_id AND " + IS_CATEGORY_ID;
   public static final String SELECT_ALL = "SELECT * FROM words";
@@ -43,6 +44,9 @@ import java.util.List;
   public static final String SELECT_PASSED_TESTS_NUM_FOR_WORD = "SELECT passed_tests_num FROM words WHERE " + WORD_ID_IS_EQUALS;
   public static final String SELECT_FAILED_TESTS_NUM_FOR_WORD = "SELECT failed_tests_num FROM words WHERE " + WORD_ID_IS_EQUALS;
   public static final String SELECT_ALL_TESTS_NUM_FOR_WORD = "SELECT passed_tests_num + failed_tests_num FROM words WHERE " + WORD_ID_IS_EQUALS;
+  public static final String SELECT_PASSED_TESTS_SUM = "SELECT SUM(passed_tests_num) FROM words";
+  public static final String SELECT_FAILED_TESTS_SUM = "SELECT SUM(failed_tests_num) FROM words";
+  public static final String SELECT_ALL_TESTS_SUM = "SELECT SUM(passed_tests_num + failed_tests_num) FROM words";
   
   //insert
   @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -60,11 +64,8 @@ import java.util.List;
   @Update
   public void update_word(Word new_word);
   //update type
-  @Query(UPDATE_SET_TYPE_FAVORITE)
-  public void set_type_favorite(long word_id, boolean is_favorite);
-  //update category
-  @Query(UPDATE_SET_CATEGORY_FAVORITE)
-  public void set_category_favorite(long word_id, boolean is_favorite);
+  @Query(UPDATE_SET_WORD_FAVORITE)
+  public void set_word_favorite(long word_id, boolean is_favorite);
   //update test history:
   @Query(UPDATE_ADD_PASSED_TEST_TRY)
   public void add_passed_test_try(long word_id);
@@ -78,6 +79,9 @@ import java.util.List;
   //delete
   @Delete
   public void delete(Word deleted_word);
+  //delete word:
+  @Query(DELETE_WORD)
+  public void delete_word(long word_id);
   //delete type:
   @Query(DELETE_TYPE)
   public void delete_type(long type_id);
@@ -93,9 +97,9 @@ import java.util.List;
   @Query(SELECT_FAVORITE)
   public List<Word> get_favorite();
   @Query(SELECT_TYPES_ID)
-  public List<Long> get_types_id();
+  public List<Long> get_type_id_s();
   @Query(SELECT_CATEGORIES_ID)
-  public List<Long> get_categories_id();
+  public List<Long> get_category_id_s();
   @Query(SELECT_IS_TYPE)
   public boolean is_type(long word_id);
   @Query(SELECT_IS_CATEGORY)
@@ -108,4 +112,10 @@ import java.util.List;
   public int get_failed_tests_num_for_word(long word_id);
   @Query(SELECT_ALL_TESTS_NUM_FOR_WORD)
   public int get_all_tests_num_for_word(long word_id);
+  @Query(SELECT_PASSED_TESTS_SUM)
+  public int get_passed_tests_sum();
+  @Query(SELECT_FAILED_TESTS_SUM)
+  public int get_failed_tests_sum();
+  @Query(SELECT_ALL_TESTS_SUM)
+  public int get_all_tests_sum();
 }

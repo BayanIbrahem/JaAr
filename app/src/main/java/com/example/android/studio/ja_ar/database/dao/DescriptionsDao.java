@@ -9,7 +9,7 @@ import com.example.android.studio.ja_ar.database.entity.*;
 import java.util.List;
 
 /**
- * STRINGS NAMES,
+ * STRINGS NAMES:
  * FIRST EVERY STRING REPRESENTS WHAT IT CONTAINS,
  * IN QUERIES THERE ARE SOME SUB STRINGS DUPLICATED SO I MAKE THEM IN SEPARATED STRING VARIABLE
  * TO KNOW IF THE STRING IS QUERY OR SUB STRING WE SEE THE FIRST WORD
@@ -18,7 +18,7 @@ import java.util.List;
  * FINALLY FOR OTHER STRING NAMES THIS MEAN THAT IT IS SUB STRING
  * */
 @Dao
-public interface DescriptionDao{
+public interface DescriptionsDao{
   public static final String WORD_ID_EQUAL = "word_id = :word_id";
   public static final String LANG_ID_EQUAL = "lang_id = :lang_id";
   public static final String UPDATE_DESCRIPTION = "UPDATE descriptions SET descriptions = :new_description WHERE " + WORD_ID_EQUAL + " AND " + LANG_ID_EQUAL;
@@ -35,12 +35,12 @@ public interface DescriptionDao{
   public void insert(Descriptions... new_word_features);
   
   @Update
-  public void update(Descriptions... edited_word_features);
+  public void update(Descriptions... edited_word_descriptions);
   @Query(UPDATE_DESCRIPTION)
   public void update(long word_id, long lang_id, String new_description);
   
   @Delete
-  public void delete(Descriptions... deleted_word_features);
+  public void delete(Descriptions... deleted_word_descriptions);
   @Query(DELETE_ALL)
   public void delete_all();
   @Query(DELETE_DESCRIPTION)
