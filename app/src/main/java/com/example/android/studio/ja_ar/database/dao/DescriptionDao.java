@@ -29,7 +29,7 @@ public interface DescriptionDao{
   public static final String SELECT_ALL = "SELECT * FROM descriptions";
   public static final String SELECT_WORD = SELECT_ALL + " WHERE " + WORD_ID_EQUAL;
   public static final String SELECT_LANG = SELECT_ALL + " WHERE " + LANG_ID_EQUAL;
-  public static final String SELECT_DESCRIPTION = "SELECT * FROM descriptions WHERE " + WORD_ID_EQUAL + " AND " + LANG_ID_EQUAL;
+  public static final String SELECT_DESCRIPTION = "SELECT descriptions FROM descriptions WHERE " + WORD_ID_EQUAL + " AND " + LANG_ID_EQUAL;
   //insert
   @Insert
   public void insert(Descriptions... new_word_features);
