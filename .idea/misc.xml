@@ -3,14 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/layout/activity_expanded_word.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.22447916666666667" />
         <entry key="app/src/main/res/layout/activity_learn.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_saving.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_settings.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_settings_activities.xml" value="0.22447916666666667" />
+        <entry key="app/src/main/res/layout/collapsed_list_item_layout.xml" value="0.5" />
         <entry key="app/src/main/res/layout/list_item_layout.xml" value="0.45083682008368203" />
         <entry key="app/src/main/res/layout/settings_activity.xml" value="0.22447916666666667" />
+        <entry key="app/src/main/res/menu/expanded_word_app_bar.xml" value="0.33" />
         <entry key="app/src/main/res/menu/home_app_bar.xml" value="0.2234375" />
         <entry key="app/src/main/res/xml/header_preferences.xml" value="0.1" />
         <entry key="app/src/main/res/xml/messages_preferences.xml" value="0.10955056179775281" />

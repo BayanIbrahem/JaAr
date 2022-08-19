@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="word_main_word">word_main_name</string>
+    <string name="word_other_names">word_other_names</string>
+    <string name="word_type">word_type</string>
+    <string name="word_meanings">word_meanings</string>
+    <string name="word_description">word_description</string>
+    <string name="id">word_id</string>
+    <string name="lang_id">lang_id</string>
+</resources>

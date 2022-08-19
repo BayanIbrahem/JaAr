@@ -25,7 +25,7 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.ViewHo
     View layout =
         LayoutInflater.from(
             parent.getContext()
-        ).inflate(R.layout.list_item_layout, parent, false);
+        ).inflate(R.layout.collapsed_list_item_layout, parent, false);
     return new ViewHolder(layout);
   }
   
@@ -53,10 +53,7 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.ViewHo
       tv_wordMeaning = itemView.findViewById(R.id.list_tv_meaning);
     }
     void bind(SingleWord singleWord){
-      tv_wordName.setText(singleWord.getDefaultLanguageName());
-      tv_wordType.setText(singleWord.getType());
-      tv_description.setText(singleWord.getDefaultDescription());
-      tv_wordMeaning.setText(singleWord.getSecondLanguageName());
+    
     }
   }
 }

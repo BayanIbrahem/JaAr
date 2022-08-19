@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 
 import com.example.android.studio.ja_ar.enums.lang.Languages;
 import com.example.android.studio.ja_ar.helpers.log.PrintLog;
-import com.example.android.studio.ja_ar.units.word_manager.WordManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,62 +21,58 @@ import java.util.List;
  * ALSO I ADDED CATEGORIES FOR WORDS.
  * */
 public class SingleWord{
+  private final String WORD_LOG_TAG;
   private static int instance_created = 0;
   private long id; //unique num.
   private boolean true_id; // true id from database.
-  private List<Languages> languages; //list of languages with key of each one.
+  private List<Boolean> languages; //list of languages with key of each one.
   private List<List<String>> meanings; //list of meanings for each language.
-  private String type; //Type of word (must be single value)
-  private List<String> descriptions; //description for each language;
+  private List<String> types; //Type of word (must be single value for each language)
+  private List<String> descriptions; //description for each language
   private int testSuccess; //how many i tested
   private int testFailure; //this word.
-  private String category; //make categories for words to make learning easier.
+  private List<String> categories; //make categories for words to make learning easier.
   private boolean favorite;
-  public static SingleWord getInstance(long id,
-                                       String type,
-                                       Pair<Languages, Languages> languages,
-                                       Pair<String[], String[]> meanings,
-                                       Pair<String, String> description,
-                                       String category){
-    boolean is_valid_instance = true;
-//    is_valid_instance =
-//            id>=0
-//            && !isEmpty(type)
-//            && !isEmpty(meanings.first)
-//            && !isEmpty(meanings.second)
-//            && !isEmpty(category)
-//            && !isEmpty(description.first)
-//            && !isEmpty(description.second)
-//            && !Arrays.equals(meanings.second, meanings.first)
-//            && !isPalindrome(description)
-//            && !isPalindrome(languages);
-      return new SingleWord(id, type, languages, meanings, description, category);
-  }
-  private SingleWord(long id,
-                     String type,
-                     Pair<Languages, Languages> languages,
-                     Pair<String[], String[]> meanings,
-                     Pair<String, String> description, String category){
+  public SingleWord(long id,
+                    Pair<Long, Long> languages,
+                    Pair<String, String> types,
+                    Pair<String, String> categories,
+                    Pair<String[], String[]> meanings,
+                    Pair<String, String> description
+  ){
+    
     this.id=id;
-    this.type = type;
-    
+    this.WORD_LOG_TAG = "word #" + id;
+  
+    int first_lang_id = Math.toIntExact(languages.first);
+    int second_lang_id = Math.toIntExact(languages.second);
+  
     this.languages = new ArrayList<>(2);
-    this.languages.add(languages.first);
-    this.languages.add(languages.second);
-    
+    this.languages.set(first_lang_id, true);
+    this.languages.set(second_lang_id, true);
+  
+    this.types = new ArrayList<>(2);
+    this.types.set(first_lang_id, types.first);
+    this.types.set(second_lang_id, types.second);
+  
+    this.categories = new ArrayList<>(2);
+    this.categories.set(first_lang_id, categories.first);
+    this.categories.set(second_lang_id, categories.second);
+  
+    this.descriptions = new ArrayList<String>(2);
+    this.descriptions.set(first_lang_id, description.first.trim().toLowerCase());
+    this.descriptions.set(second_lang_id, description.second.trim().toLowerCase());
+  
     this.meanings = new ArrayList<List<String>>(2);
     trimmedLowerCase(meanings.first);
     trimmedLowerCase(meanings.second);
     List<String> first_lang_meanings = Arrays.asList(meanings.first);
     List<String> second_lang_meanings = Arrays.asList(meanings.second);
-    this.meanings.add(first_lang_meanings);
-    this.meanings.add(second_lang_meanings);
-    this.descriptions = new ArrayList<String>(2);
-    this.descriptions.add(description.first.trim().toLowerCase());
-    this.descriptions.add(description.second.trim().toLowerCase());
-    this.category = category;
+    this.meanings.set(first_lang_id, first_lang_meanings);
+    this.meanings.set(second_lang_id, second_lang_meanings);
     
     this.favorite = false;
+    
     clearHistory();
   }
   
@@ -99,71 +94,146 @@ public class SingleWord{
     return true_id;
   }
   
-  public List<Languages> getLanguages(){
+  public List<Boolean> getLanguages(){
     return languages;
   }
-  public Languages getLanguage(final long lang_id){
-    if(!checkLangId(lang_id)){
-      return Languages.nan;
+  public boolean hasLanguage(final long lang_id){
+    if(isInvalidLangId(lang_id)){
+      return false;
     }
-    return languages.get((int)lang_id);
+    return this.languages.get((int) lang_id);
   }
-  public void addLanguage(Languages lang_name){
-    if(isNewLang(lang_name)){
-      int index = (int)lang_name.lang_id;
-      if(!hasEnoughSize(this.languages, index)){
-        this.languages.add(index, lang_name);
-        this.meanings.add(index, new ArrayList<String>());
-        this.descriptions.add(index, "no description");
-      }
-      else{
-        this.languages.set(index, lang_name);
-        this.meanings.set(index, new ArrayList<String>());
-        this.descriptions.set(index, "no description");
-      }
+  public boolean addLanguage(long lang_id){
+    if(lang_id < 0){
+      return false;
     }
+    //this if check if the language is new of not
+    this.languages.set((int) lang_id, true);
+    return true;
   }
   
-  public List<List<String>> getMeanings(){
+  public List<String> getTypes(){
+    return types;
+  }
+  public String getLangType(long lang_id){
+    if(isInvalidLangId(lang_id)){
+      return null;
+    }
+    return this.types.get((int) lang_id);
+  }
+  public boolean addNewTypeMeaning(long lang_id, String type){
+    if(isInvalidLangId(lang_id)){
+      return false;
+    }
+    if(this.languages.get((int)lang_id)){
+      if(this.types.get((int)lang_id) == null){
+        this.types.set((int)lang_id, type);
+        return true;
+      }
+    }
+    PrintLog.error(WORD_LOG_TAG, "fail to add type non existed lang");
+    return false;
+  }
+  public boolean addOrReplaceTypeMeaning(long lang_id, String type){
+    if(isInvalidLangId(lang_id)){
+      return false;
+    }
+    if(this.languages.get((int)lang_id)){
+      this.types.set((int)lang_id, type);
+      return true;
+    }
+    PrintLog.error(WORD_LOG_TAG, "fail to add type non existed lang");
+    return false;
+  }
+  
+  public List<String> getCategories(){
+    return categories;
+  }
+  public String getLangCategory(long lang_id){
+    if(isInvalidLangId(lang_id)){
+      return null;
+    }
+    return this.categories.get((int) lang_id);
+  }
+  public boolean addNewCategoryMeaning(long lang_id, String type){
+    if(isInvalidLangId(lang_id)){
+      return false;
+    }
+    if(this.languages.get((int)lang_id)){
+      if(this.types.get((int)lang_id) == null){
+        this.types.set((int)lang_id, type);
+        return true;
+      }
+    }
+    PrintLog.error(WORD_LOG_TAG, "fail to add category non existed lang");
+    return false;
+  }
+  public boolean addOrReplaceCategoryMeaning(long lang_id, String type){
+    if(isInvalidLangId(lang_id)){
+      return false;
+    }
+    if(this.languages.get((int)lang_id)){
+      this.types.set((int)lang_id, type);
+      return true;
+    }
+    PrintLog.error(WORD_LOG_TAG, "fail to add category non existed lang");
+    return false;
+  }
+  
+  
+  public List<List<String>> getAllMeanings(){
     return meanings;
   }
-  public List<String> getMeaning(final long lang_id){
-    if(!checkLangId(lang_id)){
-      return new ArrayList<String>();
+  public List<String> getWordMeanings(final long lang_id){
+    if(isInvalidLangId(lang_id)){
+      PrintLog.error(WORD_LOG_TAG, "fail to get meaning non existed lang");
+      return null;
     }
-    return meanings.get((int)lang_id);
+    List<String> lang_meanings = meanings.get((int)lang_id);
+    return lang_meanings==null?new ArrayList<String>():lang_meanings;
   }
-  public void addMeaning(String meaning, long lang_id){
+  public boolean addLangMeanings(long lang_id, String... meanings){
     if(!checkLangId(lang_id)){
-      PrintLog.error("word #"+id, "fail to add meaning (invalid language)");
-      return;
+      PrintLog.error(WORD_LOG_TAG, "fail to add meaning non existed lang");
+      return false;
     }
-    meaning = meaning.toLowerCase().trim();
-    this.meanings.get((int)lang_id).add(meaning);
-  }
-  
-  public String getType(){
-    return type;
-  }
-  public void setType(String type){
-    this.type = type;
+    for(int i=0; i<meanings.length; i++){
+      meanings[i] = meanings[i].toLowerCase().trim();
+    }
+    List<String> lang_meanings = this.meanings.get((int)lang_id);
+    if(lang_meanings == null){
+      lang_meanings = new ArrayList<>();
+    }
+    lang_meanings.addAll(Arrays.asList(meanings));
+    
+    return true;
   }
   
   public List<String> getDescriptions(){
     return descriptions;
   }
   public String getDescription(long lang_id){
-    if(!checkLangId(lang_id)){
-      return "nan_description";
+    if(isInvalidLangId(lang_id)){
+      return null;
     }
     return this.descriptions.get((int)lang_id);
   }
-  public void addDescription(long lang_id, String description){
-    if(!checkLangId(lang_id)){
-      PrintLog.error("word #"+id, "fail to add meaning (invalid language)");
-      return;
+  public boolean addNewDescriptionMeaning(long lang_id, String description){
+    if(isInvalidLangId(lang_id)){
+      return false;
     }
-    this.descriptions.add(description);
+    if(this.descriptions.get((int)lang_id) != null){
+      return false;
+    }
+    this.descriptions.set((int)lang_id, description);
+    return true;
+  }
+  public boolean addOrReplaceDescriptionMeaning(long lang_id, String description){
+    if(isInvalidLangId(lang_id)){
+      return false;
+    }
+    this.descriptions.set((int)lang_id, description);
+    return true;
   }
   
   public int getTestSuccess(){
@@ -180,47 +250,21 @@ public class SingleWord{
       this.testFailure++;
     }
   }
+  
   public void clearHistory(){
     this.testSuccess = this.testFailure = 0;
   }
   
-  public String getCategory(){
-    return category;
-  }
-  public void setCategory(String category){
-    this.category = category;
-  }
-  
-  public String getDefaultLanguageName(){
-    int index = this.languages.indexOf(WordManager.first_lang);
-    if(index < 0){
-      return this.meanings.get(0).get(0);
-    }
-    else{
-      return this.meanings.get(index).get(0);
-    }
-  }
-  public String getSecondLanguageName(){
-    int index = this.languages.indexOf(WordManager.second_lang);
-    if(index < 0){
-      return String.join(", ", this.meanings.get(1));
-    }
-    else{//TODO make the delimiter different for each lang.
-      return String.join(", ", this.meanings.get(index));
-    }
-  }
-  public String getDefaultDescription(){
-    int index = this.languages.indexOf(WordManager.first_lang);
-    if(index < 0){
-      return this.descriptions.get(0);
-    }
-    else{
-      return this.descriptions.get(index);
-    }
-  }
   //helper methods
   private boolean checkLangId(long lang_id){
-    return !(lang_id < 0 || lang_id >= languages.size());
+    return !(lang_id < 0 || !this.languages.get((int)lang_id));
+  }
+  private boolean isInvalidLangId(long lang_id){
+    if(!checkLangId(lang_id)){
+      PrintLog.error("word #"+id, "invalid language");
+      return true;
+    }
+    return false;
   }
   private void trimmedLowerCase(@NonNull String[] array){
     for(int i=0; i<array.length; i++){
@@ -259,6 +303,34 @@ public class SingleWord{
   }
   @Override
   public String toString(){
-    return "id: " + id + " type: " + type + " meanings: " + meanings.toString() + " descriptions: " + descriptions.toString();
+    StringBuilder builder = new StringBuilder();
+    builder.append('\n');
+    builder.append(WORD_LOG_TAG);
+    builder.append('\n');
+    builder.append("id: ");
+    builder.append(id);
+    builder.append('\n');
+    builder.append("languages id: ");
+    builder.append(this.languages);
+    builder.append('\n');
+    builder.append("types: ");
+    builder.append(this.types);
+    builder.append('\n');
+    builder.append("categories:");
+    builder.append(this.categories);
+    builder.append('\n');
+    builder.append("meanings: ");
+    for(int i=0; i<this.meanings.size(); i++){
+      builder.append("lang #");
+      builder.append(i);
+      builder.append(": ");
+      List<String> m = this.meanings.get(i);
+      builder.append(m==null?"null meaning":m);
+    }
+    builder.append('\n');
+    builder.append("descriptions: ");
+    builder.append(this.descriptions);
+    builder.append('\n');
+    return builder.toString();
   }
 }

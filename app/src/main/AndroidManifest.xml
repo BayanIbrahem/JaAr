@@ -12,10 +12,13 @@
         android:theme="@style/Theme.Ja_Ar"
         tools:targetApi="31">
         <activity
+            android:name=".activities.ExpandedWordActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.SettingsActivity"
             android:exported="false"
-            android:parentActivityName=".activities.HomeActivity"
-            android:label="@string/title_activity_settings" />
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".activities.HomeActivity" />
         <activity
             android:name=".activities.LearnActivity"
             android:exported="false"
@@ -25,9 +28,9 @@
             android:exported="false"
             android:parentActivityName=".activities.HomeActivity" />
         <activity
-            android:launchMode="singleTop"
             android:name=".activities.HomeActivity"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
